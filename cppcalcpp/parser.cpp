@@ -2,15 +2,12 @@
 #include "parser.h"
 #include "token.h"
 #include <map>
-#include <string>
-#include <utility>
 #include <iterator>
-#include <iostream>
 #include <cassert>
 
-// larger number = higher precidence.
-std::map<std::string, size_t> precidence = { {"+", 0 },{ "-", 0 },{ "*", 1 },{ "/", 1 } };
-std::map<std::string, bool> isRightAssositve{ { "+", false },{ "-", false } , { "*", false },{ "/", false } };
+// larger number = higher precedence.
+std::map<type, size_t> precedence = { {plus, 0 },{ minus, 0 },{ astrisk, 1 },{ slash , 1 } };
+std::map<type, bool> isRightAssositve{ { plus, false },{ minus, false } , { astrisk, false },{ slash, false } };
 token parser::peek() {
     return *(m_iterator);
 }
@@ -24,30 +21,29 @@ token parser::advance() {
 }
 
 bool precidenceCompare(token a, token b) {
-    return precidence[a.m_value] > precidence[b.m_value] ||
-        (precidence[a.m_value] == precidence[b.m_value] && isRightAssositve[a.m_value]);
+    return precedence[a.m_type] > precedence[b.m_type] ||
+        (precedence[a.m_type] == precedence[b.m_type] && isRightAssositve[a.m_type]);
 }
 
 exprtree* parser::parseExpression1(exprtree* lhs, size_t minPrecidence)
 {
     auto lookahead = peek();
-    while (lookahead.m_type == token::op && precidence[lookahead.m_value] >= minPrecidence)
+    while (isOp(lookahead.m_type) && precedence[lookahead.m_type] >= minPrecidence)
     {
         auto op = lookahead;
         advance();
         auto rhs = parsePrimary();
         lookahead = peek();
-        while (lookahead.m_type == token::op && precidenceCompare(lookahead, op))
+        while (isOp(lookahead.m_type) && precidenceCompare(lookahead, op))
         {
-            rhs = parseExpression1(rhs, precidence[lookahead.m_value]);
+            rhs = parseExpression1(rhs, precedence[lookahead.m_type]);
             lookahead = peek();
         }
 
         auto tree = new exprtree();
         tree->subtrees.push_back(lhs);
         tree->subtrees.push_back(rhs);
-        tree->m_type = exprtree::op;
-        tree->m_strval = op.m_value;
+        tree->m_type = op.m_type;
         lhs = tree;
     }
 
@@ -57,10 +53,10 @@ exprtree* parser::parseExpression1(exprtree* lhs, size_t minPrecidence)
 exprtree* parser::parsePrimary()
 {
     auto token = advance();
-    assert(token.m_type == token::num);
+    assert(token.m_type == type::num);
     auto tree = new exprtree();
-    tree->m_intval = std::stoi(token.m_value);
-    tree->m_type = exprtree::num;
+    tree->m_intval = token.m_value;
+    tree->m_type = type::num;
     return tree;
 }
 

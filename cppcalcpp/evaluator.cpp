@@ -2,35 +2,32 @@
 #include "evaluator.h"
 #include <cassert>
 
-int32_t evaluateOp(int32_t lhs, int32_t rhs, std::string op) {
-    if (op == "+")
+int32_t evaluateOp(int32_t lhs, int32_t rhs, type op) {
+    switch (op)
     {
+    case plus:
         return lhs + rhs;
-    }
-    if (op == "*")
-    {
-        return lhs * rhs;
-    }
-    if (op == "-")
-    {
+    case minus:
         return lhs - rhs;
-    }
-    if (op == "/")
-    {
+    case astrisk:
+        return lhs * rhs;
+    case slash:
         return lhs / rhs;
+    case num:
+    case end:
+    default:
+        throw std::logic_error("unexpected op");
     }
-    assert(0);
-    throw std::logic_error("unexpected op");
 }
 
 int32_t evaluator::evaluate(const exprtree* tree) {
-    switch (tree->m_type) {
-    case exprtree::op:
+    if (isOp(tree->m_type))
+    {
         assert(tree->subtrees.size() == 2);
-        return evaluateOp(evaluate(tree->subtrees[0]), evaluate(tree->subtrees[1]), tree->m_strval);
-    case exprtree::num: return tree->m_intval;
-    default:
-        assert(0);
-        throw std::logic_error("Unexpected type in evaluation.");
+        return evaluateOp(evaluate(tree->subtrees[0]), evaluate(tree->subtrees[1]), tree->m_type);
     }
+
+    if (tree->m_type == num) return tree->m_intval;
+    assert(0);
+    throw std::logic_error("Unexpected type in evaluation.");
 }

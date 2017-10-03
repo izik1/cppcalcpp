@@ -1,15 +1,38 @@
 #pragma once
-#include <string>
+#include <cassert>
+#include <cstdint>
+enum type {
+    plus,
+    minus,
+    astrisk,
+    slash,
+    num,
+    end,
+};
+
 class token
 {
 public:
-    enum type {
-        num,
-        op,
-        empty,
-    };
     type m_type;
-    std::string m_value;
-    token(const token::type p_type, const std::string p_value);
+
+    int32_t m_value;
+    token(const type p_type, const int32_t p_value);
     ~token();
 };
+
+inline bool isOp(type t) {
+    switch (t)
+    {
+    case plus:
+    case minus:
+    case astrisk:
+    case slash:
+        return true;
+    case num:
+    case end:
+        return false;
+    default:
+        assert(0);
+        return false;
+    }
+}
