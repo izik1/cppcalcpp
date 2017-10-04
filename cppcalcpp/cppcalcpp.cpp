@@ -11,14 +11,12 @@
 void printTree(exprtree* tree, size_t indent) {
     std::cout << std::string(indent, ' ') <<
         (isOp(tree->m_type) ? typeToString[tree->m_type] : std::to_string(tree->m_intval)) << std::endl;
-    for each (auto sub in tree->subtrees)
-    {
+    for each (auto sub in tree->subtrees) {
         printTree(sub, indent + 1);
     }
 }
 
-int main()
-{
+int main() {
     std::string str;
     std::cin >> str;
     std::cin.ignore();

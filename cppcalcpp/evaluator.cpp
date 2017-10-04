@@ -3,8 +3,7 @@
 #include <cassert>
 
 int32_t evaluateOp(int32_t lhs, int32_t rhs, type op) {
-    switch (op)
-    {
+    switch(op) {
     case plus:
         return lhs + rhs;
     case minus:
@@ -14,20 +13,18 @@ int32_t evaluateOp(int32_t lhs, int32_t rhs, type op) {
     case slash:
         return lhs / rhs;
     case num:
-    case end:
+    case eof:
     default:
         throw std::logic_error("unexpected op");
     }
 }
 
 int32_t evaluator::evaluate(const exprtree* tree) {
-    if (isOp(tree->m_type))
-    {
+    if(isOp(tree->m_type)) {
         assert(tree->subtrees.size() == 2);
         return evaluateOp(evaluate(tree->subtrees[0]), evaluate(tree->subtrees[1]), tree->m_type);
     }
 
-    if (tree->m_type == num) return tree->m_intval;
-    assert(0);
+    if(tree->m_type == num) return tree->m_intval;
     throw std::logic_error("Unexpected type in evaluation.");
 }
