@@ -1,13 +1,26 @@
 #include "stdafx.h"
 #include "parser.h"
 #include "token.h"
-#include <map>
+#include <unordered_map>
 #include <iterator>
 #include <cassert>
 
 // larger number = higher precedence.
-std::map<type, size_t> precedence = {{plus, 0 },{ minus, 0 },{ astrisk, 1 },{ slash , 1 }};
-std::map<type, bool> isRightAssositve{{ plus, false },{ minus, false } , { astrisk, false },{ slash, false }};
+std::unordered_map<type, size_t> precedence = {
+    {plus, 0},
+    {minus, 0},
+    {slash, 1},
+    {carrot, 2},
+    {astrisk, 1},
+};
+std::unordered_map<type, bool> isRightAssositve = {
+    {plus, false},
+    {minus, false},
+    {slash, false},
+    {carrot, true},
+    {astrisk, false},
+};
+
 token parser::peek() {
     return *(m_iterator);
 }

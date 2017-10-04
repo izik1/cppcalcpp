@@ -4,7 +4,7 @@
 #include "token.h"
 class exprtree {
 public:
-    int32_t m_intval;
+    int64_t m_intval;
     type m_type;
     std::vector<exprtree*> subtrees;
     exprtree();

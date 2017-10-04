@@ -10,6 +10,7 @@ std::unordered_map<type, std::string> typeToString{
     {astrisk,      "astrisk"},
     {paren_open,   "paren_open"},
     {paren_close,  "paren_close"},
+    {carrot, "carrot"},
 };
 
 std::unordered_map<std::string, type> lexerSymbolMap{
@@ -19,4 +20,5 @@ std::unordered_map<std::string, type> lexerSymbolMap{
     {"/", type::slash},
     {"(", type::paren_open},
     {")", type::paren_close},
+    {"^", type::carrot},
 };

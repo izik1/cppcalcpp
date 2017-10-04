@@ -5,7 +5,7 @@
 class token {
 public:
     type m_type;
-    int32_t m_value;
-    token(const type p_type, const int32_t p_value);
+    int64_t m_value;
+    token(const type p_type, const int64_t p_value);
     ~token();
 };
