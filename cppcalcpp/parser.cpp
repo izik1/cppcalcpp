@@ -77,6 +77,16 @@ exprtree* parser::parsePrimary() {
         if(tok.m_type != type::paren_close) throw std::logic_error("Invalid operation (missing closing parens)");
         return tree;
     }
+    case type::minus:
+    {
+        tok = advance();
+        assert(tok.m_type == type::num);
+        auto tree = new exprtree();
+        tree->m_intval = -tok.m_value;
+        tree->m_type = type::num;
+        return tree;
+    }
+
     default:
         throw std::logic_error("Invalid operation");
     }
