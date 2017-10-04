@@ -5,6 +5,7 @@
 class exprtree {
 public:
     int64_t m_intval;
+    std::string m_strval;
     type m_type;
     std::vector<exprtree*> subtrees;
     exprtree();

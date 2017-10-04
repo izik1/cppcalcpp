@@ -7,17 +7,19 @@
 
 // larger number = higher precedence.
 std::unordered_map<type, size_t> precedence = {
-    {plus, 0},
-    {minus, 0},
-    {slash, 1},
-    {carrot, 2},
-    {astrisk, 1},
+    {plus, 1},
+    {minus, 1},
+    {slash, 2},
+    {carrot, 3},
+    {astrisk, 2},
+    {equals, 0},
 };
 std::unordered_map<type, bool> isRightAssositve = {
     {plus, false},
     {minus, false},
     {slash, false},
     {carrot, true},
+    {equals, true},
     {astrisk, false},
 };
 
@@ -84,6 +86,14 @@ exprtree* parser::parsePrimary() {
         auto tree = new exprtree();
         tree->m_intval = -tok.m_value;
         tree->m_type = type::num;
+        return tree;
+    }
+
+    case type::identifier:
+    {
+        auto tree = new exprtree();
+        tree->m_strval = tok.m_strval;
+        tree->m_type = type::identifier;
         return tree;
     }
 

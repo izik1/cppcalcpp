@@ -11,18 +11,21 @@ inline int64_t ipow(int64_t num, int64_t pow) {
     return res;
 }
 
-int64_t evaluateOp(int64_t lhs, int64_t rhs, type op) {
+int64_t evaluator::evaluateOp(const exprtree* lhs, int64_t rhs, type op) {
     switch(op) {
     case plus:
-        return lhs + rhs;
+        return evaluate(lhs) + rhs;
     case minus:
-        return lhs - rhs;
+        return evaluate(lhs) - rhs;
     case astrisk:
-        return lhs * rhs;
+        return evaluate(lhs) * rhs;
     case slash:
-        return lhs / rhs;
+        return evaluate(lhs) / rhs;
     case carrot:
-        return ipow(lhs, rhs);
+        return ipow(evaluate(lhs), rhs);
+    case equals:
+        ids.insert_or_assign(lhs->m_strval, rhs);
+        return ids[lhs->m_strval];
     case num:
     case eof:
     default:
@@ -33,9 +36,15 @@ int64_t evaluateOp(int64_t lhs, int64_t rhs, type op) {
 int64_t evaluator::evaluate(const exprtree* tree) {
     if(isOp(tree->m_type)) {
         assert(tree->subtrees.size() == 2);
-        return evaluateOp(evaluate(tree->subtrees[0]), evaluate(tree->subtrees[1]), tree->m_type);
+        return evaluateOp(tree->subtrees[0], evaluate(tree->subtrees[1]), tree->m_type);
     }
 
+    if(tree->m_type == identifier) {
+        if(ids.find(tree->m_strval) != ids.end()) return ids[tree->m_strval];
+        else throw std::logic_error("Unexpected identifier: " + tree->m_strval);
+    }
     if(tree->m_type == num) return tree->m_intval;
     throw std::logic_error("Unexpected type in evaluation.");
 }
+
+evaluator::evaluator() { ids = {}; }

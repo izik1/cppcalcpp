@@ -11,11 +11,12 @@ enum type {
     carrot,
     paren_open,
     paren_close,
+    identifier,
+    equals,
 };
 
 extern std::unordered_map<type, std::string> typeToString;
 extern std::unordered_map<std::string, type> lexerSymbolMap;
-
 inline bool isOp(type t) {
     switch(t) {
     case plus:
@@ -23,6 +24,7 @@ inline bool isOp(type t) {
     case astrisk:
     case carrot:
     case slash:
+    case equals:
         return true;
     default: return false;
     }
