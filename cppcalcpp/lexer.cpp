@@ -28,7 +28,7 @@ enum class modetype {
 };
 
 inline size_t isId(const char p_char) {
-    return isOp(p_char) || !contains(wordEnds, std::string(1, p_char));
+    return !isOp(p_char) && !contains(wordEnds, std::string(1, p_char));
 }
 
 inline modetype getMode(char p_charIn) {
@@ -40,14 +40,14 @@ inline modetype getMode(char p_charIn) {
 
 size_t lexNum(const std::string p_in, std::vector<token> &tokens, const size_t offset) {
     size_t len = 1;
-    for(; offset + len + 1 < tokens.size() && isNum(p_in[offset + len + 1]); len++) {}
+    for(; offset + len < p_in.length() && isNum(p_in[offset + len]); len++) {}
     tokens.push_back(token(type::num, std::stoi(p_in.substr(offset, len)), p_in.substr(offset, len)));
     return len;
 }
 
 size_t lexIdentifier(const std::string p_in, std::vector<token> &tokens, const size_t offset) {
     size_t len = 1;
-    for(; offset + len + 1 < tokens.size() && isId(p_in[offset + len + 1]); len++) {}
+    for(; offset + len < p_in.length() && isId(p_in[offset + len]); len++) {}
     tokens.push_back(token(type::identifier, 0, p_in.substr(offset, len)));
     return len;
 }
