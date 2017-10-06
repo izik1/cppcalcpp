@@ -11,7 +11,8 @@
 
 void printTree(exprtree* tree, size_t indent) {
     std::cout << std::string(indent, ' ') <<
-        (isOp(tree->m_type) ? typeToString[tree->m_type] : std::to_string(tree->m_intval)) << std::endl;
+        (isOp(tree->m_type) ? typeStringMap[tree->m_type] :
+            tree->m_type == type::identifier ? tree->m_strval : std::to_string(tree->m_intval)) << std::endl;
     for each (auto sub in tree->subtrees) {
         printTree(sub, indent + 1);
     }
@@ -23,10 +24,11 @@ int main() {
         std::string str;
         std::getline(std::cin, str);
         std::vector<token> tokens = lexer::lex(str);
-        auto tree = parser(tokens.begin()).parse();
+        auto tree = parser::parse(tokens.begin());
 
         //printTree(tree, 0);
         std::cout << "Output: " << eval.evaluate(tree) << std::endl;
+        delete tree;
     }
 
     return 0;

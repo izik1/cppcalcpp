@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "type.h"
 
-std::unordered_map<type, std::string> typeToString{
+std::unordered_map<type, std::string> typeStringMap{
     {num,          "num"},
     {eof,          "eof"},
     {plus,         "plus"},

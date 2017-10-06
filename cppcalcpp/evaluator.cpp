@@ -41,7 +41,7 @@ int64_t evaluator::evaluate(const exprtree* tree) {
 
     if(tree->m_type == identifier) {
         if(ids.find(tree->m_strval) != ids.end()) return ids[tree->m_strval];
-        else throw std::logic_error("Unexpected identifier: " + tree->m_strval);
+        else throw std::logic_error("Undefined identifier: " + tree->m_strval);
     }
     if(tree->m_type == num) return tree->m_intval;
     throw std::logic_error("Unexpected type in evaluation.");

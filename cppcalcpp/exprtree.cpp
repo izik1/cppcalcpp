@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "exprtree.h"
 
-exprtree::exprtree()
-{
+exprtree::exprtree() {
     subtrees = std::vector<exprtree*>();
 }
 
-exprtree::~exprtree()
-{
+exprtree::~exprtree() {
+    for each (auto tree in subtrees) delete tree;
 }

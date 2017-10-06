@@ -75,14 +75,12 @@ exprtree* parser::parsePrimary() {
     case type::paren_open:
     {
         exprtree* tree = parseExpression1(parsePrimary(), 0);
-        tok = advance();
-        if(tok.m_type != type::paren_close) throw std::logic_error("Invalid operation (missing closing parens)");
+        advance().expect(type::paren_close);
         return tree;
     }
     case type::minus:
     {
-        tok = advance();
-        assert(tok.m_type == type::num);
+        tok = advance().expect(type::num);
         auto tree = new exprtree();
         tree->m_intval = -tok.m_value;
         tree->m_type = type::num;
@@ -104,6 +102,10 @@ exprtree* parser::parsePrimary() {
 
 parser::parser(std::vector<token>::iterator iterator) {
     m_iterator = iterator;
+}
+
+exprtree* parser::parse(std::vector<token>::iterator iterator) {
+    return parser(iterator).parse();
 }
 
 exprtree* parser::parse() {

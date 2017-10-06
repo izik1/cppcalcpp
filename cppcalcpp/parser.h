@@ -6,6 +6,7 @@ class token;
 class parser {
 public:
     parser(std::vector<token>::iterator iterator);
+    static exprtree* parse(std::vector<token>::iterator iterator);
     exprtree* parse();
 private:
     std::vector<token>::iterator m_iterator;

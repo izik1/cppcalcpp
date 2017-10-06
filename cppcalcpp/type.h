@@ -15,7 +15,7 @@ enum type {
     equals,
 };
 
-extern std::unordered_map<type, std::string> typeToString;
+extern std::unordered_map<type, std::string> typeStringMap;
 extern std::unordered_map<std::string, type> lexerSymbolMap;
 inline bool isOp(type t) {
     switch(t) {
