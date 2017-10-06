@@ -70,10 +70,7 @@ inline size_t lexToken(const std::string p_in, std::vector<token> &tokens, const
 std::vector<token> lexer::lex(const std::string p_in) {
     std::vector<token> vec = std::vector<token>();
     size_t currStartPos = 0;
-    while(currStartPos < p_in.length()) {
-        currStartPos += lexToken(p_in, vec, currStartPos);
-    }
-
+    while(currStartPos < p_in.length()) currStartPos += lexToken(p_in, vec, currStartPos);
     vec.push_back(token(type::eof, 0, ""));
     return vec;
 }

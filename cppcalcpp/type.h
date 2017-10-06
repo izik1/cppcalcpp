@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 
-enum type {
+enum class type {
     plus,
     minus,
     astrisk,
@@ -19,12 +19,12 @@ extern std::unordered_map<type, std::string> typeStringMap;
 extern std::unordered_map<std::string, type> lexerSymbolMap;
 inline bool isOp(type t) {
     switch(t) {
-    case plus:
-    case minus:
-    case astrisk:
-    case carrot:
-    case slash:
-    case equals:
+    case type::plus:
+    case type::minus:
+    case type::astrisk:
+    case type::carrot:
+    case type::slash:
+    case type::equals:
         return true;
     default: return false;
     }

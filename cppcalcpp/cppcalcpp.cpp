@@ -10,12 +10,9 @@
 #include "evaluator.h"
 
 void printTree(std::shared_ptr<exprtree> tree, size_t indent) {
-    std::cout << std::string(indent, ' ') <<
-        (isOp(tree->m_type) ? typeStringMap[tree->m_type] :
-            tree->m_type == type::identifier ? tree->m_strval : std::to_string(tree->m_intval)) << std::endl;
-    for each (auto sub in tree->subtrees) {
-        printTree(sub, indent + 1);
-    }
+    std::cout << std::string(indent, ' ') << (isOp(tree->m_type) ? typeStringMap[tree->m_type] :
+        tree->m_type == type::identifier ? tree->m_strval : std::to_string(tree->m_intval)) << std::endl;
+    for each (auto sub in tree->subtrees) printTree(sub, indent + 1);
 }
 
 int main() {
@@ -25,8 +22,6 @@ int main() {
         std::getline(std::cin, str);
         std::vector<token> tokens = lexer::lex(str);
         auto tree = parser::parse(tokens.begin());
-
-        //printTree(tree, 0);
         std::cout << "Output: " << eval.evaluate(tree) << std::endl;
     }
 

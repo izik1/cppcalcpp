@@ -7,20 +7,20 @@
 
 // larger number = higher precedence.
 std::unordered_map<type, size_t> precedence = {
-    {plus, 1},
-    {minus, 1},
-    {slash, 2},
-    {carrot, 3},
-    {astrisk, 2},
-    {equals, 0},
+    {type::plus, 1},
+    {type::minus, 1},
+    {type::slash, 2},
+    {type::carrot, 3},
+    {type::astrisk, 2},
+    {type::equals, 0},
 };
 std::unordered_map<type, bool> isRightAssositve = {
-    {plus, false},
-    {minus, false},
-    {slash, false},
-    {carrot, true},
-    {equals, true},
-    {astrisk, false},
+    {type::plus, false},
+    {type::minus, false},
+    {type::slash, false},
+    {type::carrot, true},
+    {type::equals, true},
+    {type::astrisk, false},
 };
 
 token parser::peek() {

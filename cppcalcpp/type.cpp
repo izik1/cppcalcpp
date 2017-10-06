@@ -2,17 +2,17 @@
 #include "type.h"
 
 std::unordered_map<type, std::string> typeStringMap{
-    {num,          "num"},
-    {eof,          "eof"},
-    {plus,         "plus"},
-    {minus,        "minus"},
-    {slash,        "slash"},
-    {astrisk,      "astrisk"},
-    {paren_open,   "paren_open"},
-    {paren_close,  "paren_close"},
-    {carrot,       "carrot"},
-    {identifier,   "identifier"},
-    {equals,       "equals"},
+    {type::num,          "num"},
+    {type::eof,          "eof"},
+    {type::plus,         "plus"},
+    {type::minus,        "minus"},
+    {type::slash,        "slash"},
+    {type::astrisk,      "astrisk"},
+    {type::paren_open,   "paren_open"},
+    {type::paren_close,  "paren_close"},
+    {type::carrot,       "carrot"},
+    {type::identifier,   "identifier"},
+    {type::equals,       "equals"},
 };
 
 std::unordered_map<std::string, type> lexerSymbolMap{
