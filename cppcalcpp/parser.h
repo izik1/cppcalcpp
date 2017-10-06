@@ -5,14 +5,14 @@
 class token;
 class parser {
 public:
-    parser(std::vector<token>::iterator iterator);
-    static exprtree* parse(std::vector<token>::iterator iterator);
-    exprtree* parse();
+    static std::shared_ptr<exprtree> parse(std::vector<token>::iterator iterator);
 private:
+    parser(std::vector<token>::iterator iterator);
+    std::shared_ptr<exprtree> parse();
     std::vector<token>::iterator m_iterator;
     token peek();
     token advance();
     token current();
-    exprtree* parseExpression1(exprtree* lhs, size_t minPrecidence);
-    exprtree* parsePrimary();
+    std::shared_ptr<exprtree> parseExpression1(std::shared_ptr<exprtree> lhs, size_t minPrecidence);
+    std::shared_ptr<exprtree> parsePrimary();
 };

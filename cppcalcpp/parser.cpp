@@ -40,7 +40,7 @@ bool precidenceCompare(token a, token b) {
         (precedence[a.m_type] == precedence[b.m_type] && isRightAssositve[a.m_type]);
 }
 
-exprtree* parser::parseExpression1(exprtree* lhs, size_t minPrecidence) {
+std::shared_ptr<exprtree> parser::parseExpression1(std::shared_ptr<exprtree> lhs, size_t minPrecidence) {
     auto lookahead = peek();
     while(isOp(lookahead.m_type) && precedence[lookahead.m_type] >= minPrecidence) {
         auto op = lookahead;
@@ -52,7 +52,7 @@ exprtree* parser::parseExpression1(exprtree* lhs, size_t minPrecidence) {
             lookahead = peek();
         }
 
-        auto tree = new exprtree();
+        auto tree = std::make_shared<exprtree>(exprtree());
         tree->subtrees.push_back(lhs);
         tree->subtrees.push_back(rhs);
         tree->m_type = op.m_type;
@@ -62,26 +62,26 @@ exprtree* parser::parseExpression1(exprtree* lhs, size_t minPrecidence) {
     return lhs;
 }
 
-exprtree* parser::parsePrimary() {
+std::shared_ptr<exprtree> parser::parsePrimary() {
     auto tok = advance();
     switch(tok.m_type) {
     case type::num:
     {
-        auto tree = new exprtree();
+        auto tree = std::make_shared<exprtree>(exprtree());
         tree->m_intval = tok.m_value;
         tree->m_type = type::num;
         return tree;
     }
     case type::paren_open:
     {
-        exprtree* tree = parseExpression1(parsePrimary(), 0);
+        auto tree = parseExpression1(parsePrimary(), 0);
         advance().expect(type::paren_close);
         return tree;
     }
     case type::minus:
     {
         tok = advance().expect(type::num);
-        auto tree = new exprtree();
+        auto tree = std::make_shared<exprtree>(exprtree());
         tree->m_intval = -tok.m_value;
         tree->m_type = type::num;
         return tree;
@@ -89,7 +89,7 @@ exprtree* parser::parsePrimary() {
 
     case type::identifier:
     {
-        auto tree = new exprtree();
+        auto tree = std::make_shared<exprtree>(exprtree());
         tree->m_strval = tok.m_strval;
         tree->m_type = type::identifier;
         return tree;
@@ -104,10 +104,10 @@ parser::parser(std::vector<token>::iterator iterator) {
     m_iterator = iterator;
 }
 
-exprtree* parser::parse(std::vector<token>::iterator iterator) {
+std::shared_ptr<exprtree> parser::parse(std::vector<token>::iterator iterator) {
     return parser(iterator).parse();
 }
 
-exprtree* parser::parse() {
+std::shared_ptr<exprtree> parser::parse() {
     return parseExpression1(parsePrimary(), 0);
 }

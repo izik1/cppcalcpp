@@ -11,7 +11,7 @@ inline int64_t ipow(int64_t num, int64_t pow) {
     return res;
 }
 
-int64_t evaluator::evaluateOp(const exprtree* lhs, int64_t rhs, type op) {
+int64_t evaluator::evaluateOp(const std::shared_ptr<exprtree> lhs, int64_t rhs, type op) {
     switch(op) {
     case plus:
         return evaluate(lhs) + rhs;
@@ -33,7 +33,7 @@ int64_t evaluator::evaluateOp(const exprtree* lhs, int64_t rhs, type op) {
     }
 }
 
-int64_t evaluator::evaluate(const exprtree* tree) {
+int64_t evaluator::evaluate(const std::shared_ptr<exprtree> tree) {
     if(isOp(tree->m_type)) {
         assert(tree->subtrees.size() == 2);
         return evaluateOp(tree->subtrees[0], evaluate(tree->subtrees[1]), tree->m_type);

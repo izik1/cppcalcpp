@@ -9,7 +9,7 @@
 #include "parser.h"
 #include "evaluator.h"
 
-void printTree(exprtree* tree, size_t indent) {
+void printTree(std::shared_ptr<exprtree> tree, size_t indent) {
     std::cout << std::string(indent, ' ') <<
         (isOp(tree->m_type) ? typeStringMap[tree->m_type] :
             tree->m_type == type::identifier ? tree->m_strval : std::to_string(tree->m_intval)) << std::endl;
@@ -28,7 +28,6 @@ int main() {
 
         //printTree(tree, 0);
         std::cout << "Output: " << eval.evaluate(tree) << std::endl;
-        delete tree;
     }
 
     return 0;
